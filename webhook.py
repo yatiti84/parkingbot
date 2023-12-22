@@ -23,4 +23,5 @@ class Webhook():
             x_line_signature = self.receiver_msg.headers.get(
                 'X-Line-Signature')
         # Compare  request header and the signature
-        return x_line_signature == signature
+        return x_line_signature.encode('utf-8') == signature
+
