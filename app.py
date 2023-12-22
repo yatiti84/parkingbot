@@ -7,14 +7,15 @@ app = flask.Flask(__name__)
 app.config.from_object('configs.Config')
 
 
-@app.route('/')
+@app.route('/health')
 def health_test():
+    return 'ok'
+
+
+@app.route('/receiver')
+def receiver():
     params = flask.request.args
-    #.get('user')
     return params
-
-
-# def receiver():
 
 
 def callParkingApi():
@@ -41,4 +42,3 @@ def callParkingApi():
 if __name__ == '__main__':
     # callParkingApi()
     app.run(port=5000)
-    
