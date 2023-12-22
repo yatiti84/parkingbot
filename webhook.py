@@ -12,7 +12,7 @@ class Webhook():
     def signatureValidation(self):
 
         channel_secret = os.environ.get('CHANNEL_SECRET')
-        body = '...'  # Request body string
+        body = self.receiver_msg.args  # Request body string
         hash = hmac.new(channel_secret.encode('utf-8'),
                         body.encode('utf-8'), hashlib.sha256).digest()
         signature = base64.b64encode(hash)

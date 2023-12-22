@@ -15,9 +15,8 @@ def receiver():
     print(flask.request.args)
     print(flask.request.headers)
     webhook_manager = webhook.Webhook(flask.request)
-    if webhook_manager.signatureValidation():
-        print("Sign Validation")
-    return 
+    print (webhook_manager.signatureValidation())
+    return True
         # webhook_manager.requestBodyCheck()
     # params = flask.request.args
     # print(params)
