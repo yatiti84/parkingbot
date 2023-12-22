@@ -14,7 +14,7 @@ class Webhook():
         channel_secret = os.environ.get('CHANNEL_SECRET')
         body = self.receiver_msg.data  # Request body string
         hash = hmac.new(channel_secret.encode('utf-8'),
-                        body.encode('utf-8'), hashlib.sha256).digest()
+                        body, hashlib.sha256).digest()
         signature = base64.b64encode(hash)
         try:
             x_line_signature = self.receiver_msg.headers.get(
