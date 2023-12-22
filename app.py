@@ -12,8 +12,7 @@ def health_test():
 
 @app.route('/receiver', methods=['GET', 'POST'])
 def receiver():
-    print(flask.request.args.get('destination'))
-    print(flask.request.args.get('events'))
+    print(flask.request.data)
     print(flask.request.get_json())
     print(flask.request.headers)
     webhook_manager = webhook.Webhook(flask.request)
