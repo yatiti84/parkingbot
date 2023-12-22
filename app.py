@@ -12,7 +12,7 @@ def health_test():
     return 'ok'
 
 
-@app.route('/receiver')
+@app.route('/receiver', methods=['GET', 'POST'])
 def receiver():
     params = flask.request.args
     return params
