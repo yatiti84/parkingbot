@@ -16,9 +16,13 @@ def receiver():
     print(flask.request.get_json())
     print(flask.request.headers)
     webhook_manager = webhook.Webhook(flask.request)
-    print (webhook_manager.signatureValidation())
-    return True
+    if webhook_manager.signatureValidation():
+        for event in webhook_manager.request_events:
+            print("start to send reply")
+            webhook_manager.sendReply(event['replyToken'])
         # webhook_manager.requestBodyCheck()
+
+    return "received"
     # params = flask.request.args
     # print(params)
 
