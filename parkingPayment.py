@@ -27,8 +27,8 @@ class ParkingPayment():
                            "redirect_url": self.redirect_url}
 
         resp = requests.post(self.check_url, data=payment_content)
-        print(resp.content)
+        print(resp.content.encode('utf-8'))
         # resp_content = json.loads(resp.content)
         # payment_url = str(payment_url)
 
-        return resp.content
+        return resp.content.encode('utf-8')
