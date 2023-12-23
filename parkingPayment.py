@@ -31,4 +31,4 @@ class ParkingPayment():
         # resp_content = json.loads(resp.content)
         # payment_url = str(payment_url)
 
-        return resp.content.encode('utf-8')
+        return resp.content.decode('utf-8')
