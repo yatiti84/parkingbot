@@ -38,7 +38,7 @@ class Webhook():
         # events = self.request_body.get('events')
         return
 
-    def sendReply(self, reply_token: str) -> None:
+    def sendReply(self, reply_token: str, payment_url: str) -> None:
         headers = {
             'Content-Type': 'application/json', 
             'Authorization': f'Bearer {self.channel_access_token}'
@@ -52,7 +52,7 @@ class Webhook():
                 },
                 {
                     "type": "text",
-                    "text": "May I help you?"
+                    "text": payment_url
                 }
             ]
         })

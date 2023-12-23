@@ -1,6 +1,6 @@
 import flask
 import webhook
-
+import parkingPayment
 app = flask.Flask(__name__)
 app.config.from_object('configs.Config')
 
@@ -19,7 +19,9 @@ def receiver():
     if webhook_manager.signatureValidation():
         for event in webhook_manager.request_events:
             print("start to send reply")
-            webhook_manager.sendReply(event['replyToken'])
+            payment_manager = parkingPayment.ParkingPayment()
+            payment_url = payment_manager.callParkingApi()
+            webhook_manager.sendReply(event['replyToken'], payment_url)
         # webhook_manager.requestBodyCheck()
 
     return "received"
@@ -28,5 +30,4 @@ def receiver():
 
 
 if __name__ == '__main__':
-    # callParkingApi()
     app.run(port=5000)
