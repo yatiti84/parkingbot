@@ -4,14 +4,14 @@ import requests
 
 
 class ParkingPayment():
-    def __init__(self):
+    def __init__(self, carrier_type):
         self.parking_url = os.environ.get('parking_url')
         self.check_url = os.environ.get('check_url')
         self.redirect_url = os.environ.get('check_url')
         self.phone = os.environ.get('phone')
         self.carrier_id = os.environ.get('carrierId')
         self.payment_type = os.environ.get('payment_type')
-        self.carrier_type = os.environ.get('carrier_type')
+        self.carrier_type = carrier_type
         self.npoban = os.environ.get('NPOBAN')
 
     def callParkingApi(self) -> str:
@@ -30,8 +30,5 @@ class ParkingPayment():
 
         resp = requests.post(self.check_url, data=payment_content)
         print(resp.content.decode('utf-8'))
-        # {"message":"交易失敗，載具系統連線異常"}
-        # resp_content = json.loads(resp.content)
-        # payment_url = str(payment_url)
 
         return resp.content.decode('utf-8')

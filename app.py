@@ -1,6 +1,7 @@
 import flask
 import webhook
 import parkingPayment
+import event
 app = flask.Flask(__name__)
 app.config.from_object('configs.Config')
 
@@ -16,12 +17,22 @@ def receiver():
     print(flask.request.get_json())
     print(flask.request.headers)
     webhook_manager = webhook.Webhook(flask.request)
-    if webhook_manager.signatureValidation():
-        for event in webhook_manager.request_events:
-            print("start to send reply")
-            payment_manager = parkingPayment.ParkingPayment()
-            payment_url = payment_manager.callParkingApi()
-            webhook_manager.sendReply(event['replyToken'], payment_url)
+    if webhook_manager.signatureValidation() and webhook_manager.requestEventsCheck():
+        for raw_event in webhook_manager.request_events:
+            if raw_event['type'] == 'message':
+                request_event = event.MessageEvent(raw_event)
+                action = request_event.parseText(request_event.message_text)
+                if action['is_start']:
+                    print("start to send reply")
+                    payment_manager = parkingPayment.ParkingPayment(
+                        action['carrier_type'])
+                    payment_url = payment_manager.callParkingApi()
+                    webhook_manager.sendReply(
+                        request_event.replyToken, payment_url)
+            else:
+                print("not a message event")
+            return
+
         # webhook_manager.requestBodyCheck()
 
     return "received"

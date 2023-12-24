@@ -7,7 +7,7 @@ import json
 
 
 class Webhook():
-    def __init__(self, receiver_msg):
+    def __init__(self, receiver_msg) -> None:
 
         self.channel_secret = os.environ.get('CHANNEL_SECRET')
         self.line_reply_url = os.environ.get('line_reply_url')
@@ -17,7 +17,7 @@ class Webhook():
         self.request_user_id = receiver_msg.get_json().get('destination')
         self.request_events = receiver_msg.get_json().get('events')
 
-    def signatureValidation(self):
+    def signatureValidation(self) -> bool:
 
         hash = hmac.new(self.channel_secret.encode('utf-8'),
                         self.receiver_msg, hashlib.sha256).digest()
@@ -33,16 +33,16 @@ class Webhook():
             f"signatureValidation is{x_line_signature.encode('utf-8') == signature}")
         return x_line_signature.encode('utf-8') == signature
 
-    def requestBodyCheck(self):
-        # user_id = self.request_body.get('destination')
-        # events = self.request_body.get('events')
-        return
+    def requestEventsCheck(self) -> bool:
+        if isinstance(self.request_events, list) and self.request_events:
+            return all(['replyToken' in event for event in self.request_events])
+        return False
 
     def sendReply(self, reply_token: str, payment_url: str) -> None:
         headers = {
-            'Content-Type': 'application/json', 
+            'Content-Type': 'application/json',
             'Authorization': f'Bearer {self.channel_access_token}'
-            }
+        }
         reply_data = json.dumps({
             "replyToken": reply_token,
             "messages": [
