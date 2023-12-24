@@ -22,13 +22,14 @@ class ParkingPayment():
                     "CarrierType": self.carrier_type,
                     "CarrierId": self.carrier_id,
                     "redirect_url": self.redirect_url}
-        elif self.payment_type == 'donate':
+        elif self.carrier_type == 'donate':
             return {"Phone": self.phone,
                     "Tax": "",
                     "PaymentType": self.payment_type,
                     "CarrierType": self.carrier_type,
                     "NPOBAN": self.npoban,
                     "redirect_url": self.redirect_url}
+        return
 
     def callParkingApi(self) -> str:
 
@@ -41,3 +42,5 @@ class ParkingPayment():
         print(resp.content.decode('utf-8'))
 
         return resp.content.decode('utf-8')
+pp = ParkingPayment('donate')
+pp.callParkingApi()
