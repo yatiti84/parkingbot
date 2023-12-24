@@ -15,7 +15,7 @@ class MessageEvent(Event):
         self.message_text = message['text']
 
     def parseText(self, raw_text: str) -> dict:
-
+        print(raw_text)
         action = {
             "is_start": True if 'start' or '開始' in raw_text else False,
             "carrier_type": 'donate' if 'donate' or '捐' in raw_text else 'mobile'
