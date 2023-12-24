@@ -29,10 +29,6 @@ def receiver():
                         request_event.replyToken, payment_url)
             else:
                 print("not a message event")
-            return
-
-        # webhook_manager.requestBodyCheck()
-
     return "received"
     # params = flask.request.args
     # print(params)
