@@ -18,7 +18,7 @@ def receiver():
         for raw_event in webhook_manager.request_events:
             if raw_event['type'] == 'message' and raw_event['message']['type'] == 'text':
                 request_event = event.MessageEvent(raw_event)
-                action = request_event.parseText(request_event.message_text)
+                action = request_event.parseText()
                 print(action)
                 if action['is_start']:
                     print("start to send reply")
