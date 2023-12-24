@@ -27,7 +27,7 @@ class ParkingPayment():
                            "CarrierId": self.carrier_id,
                            "NPOBAN": self.npoban,
                            "redirect_url": self.redirect_url}
-
+        print(payment_content)
         resp = requests.post(self.check_url, data=payment_content)
         print(resp.content.decode('utf-8'))
 

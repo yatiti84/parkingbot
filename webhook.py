@@ -29,8 +29,6 @@ class Webhook():
             x_line_signature = self.request_header.get(
                 'X-Line-Signature')
         # Compare  request header and the signature
-        print(
-            f"signatureValidation is{x_line_signature.encode('utf-8') == signature}")
         return x_line_signature.encode('utf-8') == signature
 
     def requestEventsCheck(self) -> bool:
@@ -56,7 +54,6 @@ class Webhook():
                 }
             ]
         })
-        print(headers)
         raw_payment_resp = requests.post(
             url=self.line_reply_url, headers=headers, data=reply_data)
         print(raw_payment_resp.status_code)
