@@ -7,7 +7,7 @@ class ParkingPayment():
     def __init__(self, carrier_type):
         self.parking_url = os.environ.get('parking_url')
         self.check_url = os.environ.get('check_url')
-        self.redirect_url = os.environ.get('check_url')
+        self.redirect_url = os.environ.get('redirect_url')
         self.phone = os.environ.get('phone')
         self.carrier_id = os.environ.get('carrierId')
         self.payment_type = os.environ.get('payment_type')
