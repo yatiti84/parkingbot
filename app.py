@@ -3,7 +3,6 @@ import webhook
 import parkingPayment
 import event
 app = flask.Flask(__name__)
-app.config.from_object('configs.Config')
 
 
 @app.route('/health')
