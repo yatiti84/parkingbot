@@ -14,19 +14,28 @@ class ParkingPayment():
         self.carrier_type = carrier_type
         self.npoban = os.environ.get('NPOBAN')
 
+    def carrierTypeDetermination(self):
+        if self.carrier_type == 'mobile':
+            return {"Phone": self.phone,
+                    "Tax": "",
+                    "PaymentType": self.payment_type,
+                    "CarrierType": self.carrier_type,
+                    "CarrierId": self.carrier_id,
+                    "redirect_url": self.redirect_url}
+        elif self.payment_type == 'donate':
+            return {"Phone": self.phone,
+                    "Tax": "",
+                    "PaymentType": self.payment_type,
+                    "CarrierType": self.carrier_type,
+                    "NPOBAN": self.npoban,
+                    "redirect_url": self.redirect_url}
+
     def callParkingApi(self) -> str:
 
         raw_payment_resp = requests.get(self.parking_url)
         payment_resp = json.loads(raw_payment_resp.content.decode('utf-8'))
-        transaction_token = payment_resp['transaction_token']
-        payment_content = {"Phone": self.phone,
-                           "Tax": "",
-                           "transaction_token": transaction_token,
-                           "PaymentType": self.payment_type,
-                           "CarrierType": self.carrier_type,
-                           "CarrierId": self.carrier_id,
-                           "NPOBAN": self.npoban,
-                           "redirect_url": self.redirect_url}
+        payment_content = self.carrierTypeDetermination()
+        payment_content['transaction_token'] = payment_resp['transaction_token']
         print(payment_content)
         resp = requests.post(self.check_url, data=payment_content)
         print(resp.content.decode('utf-8'))
