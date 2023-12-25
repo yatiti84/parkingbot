@@ -31,6 +31,14 @@ class ParkingPayment():
                     "redirect_url": self.redirect_url}
         return
 
+    def parsePaymentResponse(self, raw_response: str):
+        resp = json.loads(raw_response)
+        if 'success' in resp:
+            return resp['url']
+        elif 'message' in resp:
+            return resp['message']
+        return raw_response
+
     def callParkingApi(self) -> str:
 
         raw_payment_resp = requests.get(self.parking_url)
@@ -41,6 +49,8 @@ class ParkingPayment():
         resp = requests.post(self.check_url, data=payment_content)
         print(resp.content.decode('utf-8'))
 
-        return resp.content.decode('utf-8')
+        return self.parsePaymentResponse(resp.content.decode('utf-8'))
+
+
 pp = ParkingPayment('donate')
 pp.callParkingApi()
