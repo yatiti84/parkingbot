@@ -52,5 +52,3 @@ class ParkingPayment():
         return self.parsePaymentResponse(resp.content.decode('utf-8'))
 
 
-pp = ParkingPayment('donate')
-pp.callParkingApi()
