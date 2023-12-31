@@ -19,7 +19,6 @@ def receiver():
             if raw_event['type'] == 'message' and raw_event['message']['type'] == 'text':
                 request_event = event.MessageEvent(raw_event)
                 action = request_event.parseText()
-                print(action)
                 if action['is_start']:
                     print("start to send reply")
                     payment_manager = parkingPayment.ParkingPayment(
@@ -30,8 +29,6 @@ def receiver():
             else:
                 print("not a message event")
     return "received"
-    # params = flask.request.args
-    # print(params)
 
 
 if __name__ == '__main__':
