@@ -39,16 +39,26 @@ class ParkingPayment():
             return resp['message']
         return raw_response
 
+    def responseCheckAndParse(self, response):
+        if response.status_code == 200:
+            print(response.content)
+            return json.loads(response.content.decode('utf-8'))
+        print(f'Request failed with status code: {response.status_code}')
+        return None
+
     def callParkingApi(self) -> str:
 
-        raw_payment_resp = requests.get(self.parking_url)
-        payment_resp = json.loads(raw_payment_resp.content.decode('utf-8'))
-        payment_content = self.carrierTypeDetermination()
-        payment_content['transaction_token'] = payment_resp['transaction_token']
-        print(payment_content)
-        resp = requests.post(self.check_url, data=payment_content)
-        print(resp.content.decode('utf-8'))
+        raw_parking_status_resp = requests.get(self.parking_url)
+        parking_status_resp = self.responseCheckAndParse(
+            raw_parking_status_resp)
+        if parking_status_resp and 'in_park' in parking_status_resp and parking_status_resp['in_park']:
+            payment_content = self.carrierTypeDetermination()
+            payment_content['transaction_token'] = parking_status_resp['transaction_token']
+            raw_payment_resp = requests.post(
+                self.check_url, data=payment_content)
+            payment_resp = self.responseCheckAndParse(raw_payment_resp)
+            if payment_resp:
+                return self.parsePaymentResponse(payment_resp)
 
-        return self.parsePaymentResponse(resp.content.decode('utf-8'))
-
-
+        elif 'in_park' in parking_status_resp and parking_status_resp['in_park'] is False:
+            return parking_status_resp

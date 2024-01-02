@@ -36,7 +36,7 @@ class Webhook():
             return all(['replyToken' in event for event in self.request_events])
         return False
 
-    def sendReply(self, reply_token: str, payment_url: str) -> None:
+    def sendReply(self, reply_token: str, reply_content: str) -> None:
         headers = {
             'Content-Type': 'application/json',
             'Authorization': f'Bearer {self.channel_access_token}'
@@ -50,7 +50,7 @@ class Webhook():
                 },
                 {
                     "type": "text",
-                    "text": payment_url
+                    "text": reply_content
                 }
             ]
         })

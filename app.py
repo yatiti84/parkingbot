@@ -23,9 +23,9 @@ def receiver():
                     print("start to send reply")
                     payment_manager = parkingPayment.ParkingPayment(
                         action['carrier_type'])
-                    payment_url = payment_manager.callParkingApi()
+                    reply_msg = payment_manager.callParkingApi()
                     webhook_manager.sendReply(
-                        request_event.replyToken, payment_url)
+                        request_event.replyToken, reply_msg)
             else:
                 print("not a message event")
     return "received"
