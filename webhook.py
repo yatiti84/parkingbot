@@ -54,7 +54,7 @@ class Webhook():
                     "text": reply_content
                 }
             ]
-        }, ensure_ascii=False)
+        })
         print(reply_data)
         raw_payment_resp = requests.post(
             url=self.line_reply_url, headers=headers, data=reply_data)
