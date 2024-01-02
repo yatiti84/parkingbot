@@ -41,6 +41,8 @@ class ParkingPayment():
 
     def responseCheckAndParse(self, response):
         if response.status_code == 200:
+            print(response.content)
+            print(response.content.decode('utf-8'))
             return json.loads(response.content.decode('utf-8'))
         print(f'Request failed with status code: {response.status_code}')
         return None
@@ -61,7 +63,7 @@ class ParkingPayment():
 
         elif 'in_park' in parking_status_resp and parking_status_resp['in_park'] is False:
             if "message" in parking_status_resp:
-                parking_status_resp['message'] = parking_status_resp['message'].decode("utf-8")
+                parking_status_resp['message'] = parking_status_resp['message'].encode("utf-8")
             return json.dumps(parking_status_resp)
         else:
             return "parking website has some problems."
