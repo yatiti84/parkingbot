@@ -41,6 +41,7 @@ class Webhook():
             'Content-Type': 'application/json',
             'Authorization': f'Bearer {self.channel_access_token}'
         }
+        print(reply_content)
         reply_data = json.dumps({
             "replyToken": reply_token,
             "messages": [
@@ -53,7 +54,7 @@ class Webhook():
                     "text": reply_content
                 }
             ]
-        })
+        }, ensure_ascii=False)
         print(reply_data)
         raw_payment_resp = requests.post(
             url=self.line_reply_url, headers=headers, data=reply_data)
