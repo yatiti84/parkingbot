@@ -54,6 +54,7 @@ class Webhook():
                 }
             ]
         })
+        print(reply_data)
         raw_payment_resp = requests.post(
             url=self.line_reply_url, headers=headers, data=reply_data)
         print(raw_payment_resp.status_code)
