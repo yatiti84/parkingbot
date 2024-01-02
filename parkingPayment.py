@@ -60,8 +60,8 @@ class ParkingPayment():
                 return self.parsePaymentResponse(payment_resp)
 
         elif 'in_park' in parking_status_resp and parking_status_resp['in_park'] is False:
-            if "message" in parking_status_resp:
-                parking_status_resp['message'] = parking_status_resp['message'].encode("utf-8")
+            # if "message" in parking_status_resp:
+            #     parking_status_resp['message'] = parking_status_resp['message'].encode("utf-8")
             return parking_status_resp
         else:
             return "parking website has some problems."
